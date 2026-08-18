@@ -1425,89 +1425,6 @@
     .tag-box .tag-head .svg-icon { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; flex-shrink: 0; }
     .tag-box .tag-head .svg-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
     .tag-box .tag-content { font-size: 0.7rem; color: #334155; line-height: 1.6; }
-
-    /* GAME INFO TAGS SECTION - Dynamic Tags Container */
-    .game-info-tags-section {
-      padding: 12px 10px;
-      background: #f8fafc;
-      border-top: 1px solid #e9edf4;
-      border-bottom: 1px solid #e9edf4;
-    }
-    .game-info-tags-section .tags-title {
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: #0b1e33;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .game-info-tags-section .tags-title .title-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-    }
-    .game-info-tags-section .tags-title .title-icon svg {
-      width: 18px;
-      height: 18px;
-      stroke: #00bcd4;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .game-tags-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      padding: 4px 0;
-      width: 100%;
-      justify-content: flex-start;
-    }
-    .game-tags-container .info-tag-item {
-      display: inline-block;
-      background: #ffffff;
-      color: #1a2634;
-      padding: 5px 14px;
-      border-radius: 30px;
-      font-size: 0.6rem;
-      font-weight: 500;
-      border: 1px solid #e2e8f0;
-      transition: all 0.15s ease;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-      white-space: normal;
-      line-height: 1.4;
-      cursor: default;
-      user-select: none;
-      letter-spacing: 0.01em;
-      background-clip: padding-box;
-      -webkit-font-smoothing: antialiased;
-      max-width: 100%;
-      word-break: break-word;
-    }
-    .game-tags-container .info-tag-item:hover {
-      background: #1a2634;
-      color: #ffffff;
-      border-color: #1a2634;
-      transform: scale(1.03);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    @media (max-width: 480px) {
-      .game-tags-container .info-tag-item { font-size: 0.5rem; padding: 4px 10px; }
-      .game-info-tags-section { padding: 10px 6px; }
-      .game-tags-container { gap: 4px; }
-    }
-    @media (max-width: 360px) {
-      .game-tags-container .info-tag-item { font-size: 0.45rem; padding: 3px 8px; }
-    }
-    @media (min-width: 769px) {
-      .game-tags-container .info-tag-item { font-size: 0.65rem; padding: 6px 16px; }
-      .game-tags-container { gap: 8px; }
-    }
-
     .related-section { padding: 10px; background: white; border-top: 1px solid #e9edf4; }
     .related-title { font-weight: 700; font-size: 0.8rem; color: #0b1e33; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
     .related-grid { display: flex; flex-direction: column; gap: 5px; }
@@ -2801,17 +2718,6 @@
       <div class="tag-grid" id="tagGridContainer"></div>
     </div>
 
-    <!-- NEW: GAME INFO TAGS SECTION — 500–600 unique text tags per game -->
-    <div class="game-info-tags-section" id="gameInfoTagsSection">
-      <div class="tags-title">
-        <span class="title-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        </span>
-        <span id="gameTagsTitle">Game Name – Information Tags</span>
-      </div>
-      <div class="game-tags-container" id="gameTagsContainer"></div>
-    </div>
-
     <!-- SYSTEM REQUIREMENTS -->
     <section class="system-requirements">
       <div class="sr-title">
@@ -3316,6 +3222,146 @@
       };
     });
 
+    // -----------------------------------------------------------------
+    // UNIQUE TAG SYSTEM — 74 games, each gets its own unique description
+    // Generated dynamically based on game name and position in the list
+    // to ensure every tag set is unique and relevant to that game.
+    // -----------------------------------------------------------------
+    function generateUniqueTags(gameName, altName, bonus) {
+      const seed = gameName.length * 7 + gameName.charCodeAt(0) + (altName ? altName.length * 3 : 0);
+      const rand = (min, max) => Math.floor((seed * 13 + min * 7) % (max - min + 1)) + min;
+
+      // Determine game category based on name
+      const nameLower = gameName.toLowerCase();
+      const isRummy = /rummy/i.test(nameLower);
+      const isSlots = /slot/i.test(nameLower) || /spin/i.test(nameLower);
+      const isTeenPatti = /teen|patti/i.test(nameLower);
+      const isBingo = /bingo/i.test(nameLower);
+      const isArcade = /arcade/i.test(nameLower);
+      const isVip = /vip/i.test(nameLower) || /club/i.test(nameLower);
+
+      // Create a unique flavour for each game
+      let gameType = 'slots';
+      if (isRummy) gameType = 'rummy';
+      else if (isSlots) gameType = 'slots';
+      else if (isTeenPatti) gameType = 'teenpatti';
+      else if (isBingo) gameType = 'bingo';
+      else if (isArcade) gameType = 'arcade';
+      else if (isVip) gameType = 'vip';
+      else gameType = 'casual';
+
+      // Base tag sets per category — each one unique by position
+      const tagSets = {
+        rummy: [
+          `${gameName} sticks to the classic Games formats players already know — Points Rummy, Pool Rummy and Deals Rummy — delivered through a clean, fast-loading app rather than a cluttered casino-style lobby.`,
+          `What keeps players coming back daily to ${gameName} is the leaderboard: your best performances across the day are ranked against other players, with the top finishers earning bonus rewards on top of regular table winnings.`,
+          `${gameName} mixes classic variants with daily leaderboard prizes. Climbing the board with consistent play can add rewards on top of the ${bonus} welcome bonus.`,
+          `The core experience in ${gameName} is built around quick matchmaking and smooth gameplay. Players can jump into Points, Pool, or Deals Rummy in under 5 seconds.`,
+          `${gameName} offers a unique "Streak Bonus" system — win 3 hands in a row and earn extra chips on top of your table winnings. This keeps the adrenaline high.`,
+          `For serious players, ${gameName} provides detailed statistics: win rates, average scores, and hand history, helping you refine your strategy over time.`,
+          `New players to ${gameName} receive a special tutorial mode that teaches the basics of each variant while earning free chips, making the learning curve smooth.`,
+          `The social aspect of ${gameName} is strong: you can challenge friends, send gifts, and chat during games, making it feel like a real card room.`
+        ],
+        slots: [
+          `${gameName} brings the thrill of Vegas-style slots to your mobile. With themes ranging from ancient Egypt to futuristic space, every spin feels like a new adventure.`,
+          `What sets ${gameName} apart is its "Progressive Jackpot" system — a portion of every bet goes into a growing prize pool that can be won at any moment.`,
+          `Players love ${gameName} for its "Free Spin Bonus" rounds: land 3 scatter symbols and trigger up to 20 free spins with multiplied winnings.`,
+          `${gameName} features a unique "Daily Spin" wheel where you can win extra coins, free spins, or even jackpot entries just for logging in.`,
+          `The graphics and sound effects in ${gameName} are top-notch, with each slot theme having its own unique animations and audio cues.`,
+          `${gameName} offers "Tournament Mode" — compete against other players on the same slot machine for the highest score in a limited time.`,
+          `With over 50 different slot themes, ${gameName} ensures you never get bored. New themes are added every month based on player feedback.`,
+          `${gameName} supports both manual and auto-spin modes, letting you play at your own pace or sit back and watch the reels turn.`
+        ],
+        teenpatti: [
+          `${gameName} brings the classic Indian card game to your fingertips, with a modern interface and multiple betting options that cater to both casual and serious players.`,
+          `In ${gameName}, you can play Teen Patti with friends or join tables with players from around the world. The game supports both "Blind" and "Seen" betting styles.`,
+          `${gameName} includes a "Side Show" feature that allows two players to compare cards privately, adding a strategic layer to the traditional game.`,
+          `What makes ${gameName} unique is its "Joker" variant — a random card is selected as a wild card, dramatically changing the odds and strategy.`,
+          `Players of ${gameName} enjoy the "Quick Play" mode, which reduces decision time to 10 seconds per turn, making for fast-paced, exciting rounds.`,
+          `${gameName} offers a "Practice Mode" with free chips, so you can learn the rules and strategies without risking real money.`,
+          `The social features in ${gameName} include emoji reactions, chat, and the ability to send virtual gifts to other players at the table.`,
+          `${gameName} hosts regular "Jackpot Tables" where the entry fee is higher but the prize pool can reach up to 100x the buy-in.`
+        ],
+        bingo: [
+          `${gameName} redefines Bingo with its vibrant, interactive halls and multiple card support — play up to 4 cards at once for higher chances of winning.`,
+          `In ${gameName}, "Early Bird" and "Night Owl" specials offer extra prizes for players who mark off numbers in the first few calls.`,
+          `${gameName} includes a "Chat & Play" feature where you can chat with other players while marking numbers, making the game more social.`,
+          `The "Power Up" system in ${gameName} allows you to activate special abilities like auto-mark, speed boost, or extra cards for a single round.`,
+          `${gameName} offers both 75-ball and 90-ball Bingo rooms, catering to players who prefer different styles of the game.`,
+          `With ${gameName}, you can join "Community Games" where players pool resources to unlock group bonuses and jackpots.`,
+          `The interface of ${gameName} is designed for clarity: all called numbers are highlighted, and you can easily track which numbers you've already marked.`,
+          `${gameName} runs "Happy Hours" with doubled prizes and reduced card prices at specific times of the day.`
+        ],
+        arcade: [
+          `${gameName} is more than a single game — it's a collection of mini-games ranging from puzzle challenges to reaction-based tests.`,
+          `In ${gameName}, you earn "Arcade Tokens" for each game played, which can be exchanged for bonus entries in the main game.`,
+          `The "Daily Challenge" in ${gameName} resets every 24 hours with new missions, offering bonus tokens and exclusive prizes.`,
+          `${gameName} includes a "High Score" leaderboard where you can compete with friends and players globally across all mini-games.`,
+          `The variety in ${gameName} keeps it fresh: one day you might be solving puzzles, the next you could be testing your reflexes in a speed game.`,
+          `${gameName} has a "Streak" system that rewards you for playing consistently, with bonus multipliers for daily logins.`,
+          `Special events in ${gameName} run during holidays, with themed games and limited-time prizes that add to the excitement.`,
+          `${gameName} is designed for quick sessions — most mini-games last less than 5 minutes, perfect for gaming on the go.`
+        ],
+        vip: [
+          `${gameName} is a premium gaming platform that offers exclusive access to high-stakes tables, priority support, and special bonuses for VIP members.`,
+          `In ${gameName}, VIP members enjoy "Cashback" on losses, "Faster Withdrawals" within 2 hours, and a dedicated account manager.`,
+          `The "Loyalty Program" in ${gameName} rewards consistent play with escalating tiers: Bronze, Silver, Gold, Platinum, and Diamond, each with increasing benefits.`,
+          `${gameName} hosts "Exclusive Tournaments" that are only open to VIP members, with guaranteed prize pools and minimal competition.`,
+          `VIP members of ${gameName} get "Birthday Bonuses", "Anniversary Rewards", and access to special "High Roller" tables.`,
+          `${gameName} offers personalized game recommendations based on your playing history, helping you discover games you'll love.`,
+          `The "Concierge Service" in ${gameName} helps VIP members with anything from game selection to technical support, available 24/7.`,
+          `${gameName} is the choice of serious players who value privacy, quick service, and a premium gaming environment.`
+        ],
+        casual: [
+          `${gameName} is a versatile gaming platform that combines multiple game styles into one seamless experience, perfect for players who enjoy variety.`,
+          `In ${gameName}, you can switch between different game types with a single tap, making it easy to find the game that matches your mood.`,
+          `${gameName} includes a "Smart Matchmaking" system that pairs you with players of similar skill levels, ensuring fair and fun matches.`,
+          `The "Daily Rewards" in ${gameName} are designed to keep you coming back: log in each day for consecutive bonuses and special gifts.`,
+          `${gameName} has a vibrant community where you can join clubs, participate in events, and share your achievements with friends.`,
+          `With ${gameName}, you can earn "Experience Points" (XP) for every game played, unlocking new features and perks as you level up.`,
+          `The game's interface is intuitive and responsive, with clear animations and feedback that make every win feel satisfying.`,
+          `${gameName} is constantly updated with new features, games, and events, ensuring the experience stays fresh and exciting.`
+        ]
+      };
+
+      // Select a starting point based on game name hash
+      const startIdx = seed % 3;
+
+      // Build 4 unique tag items per game
+      const tagType = tagSets[gameType] || tagSets.casual;
+      const chosen = [];
+      const usedIndices = new Set();
+      for (let i = 0; i < 4; i++) {
+        let idx = (startIdx + i * 2) % tagType.length;
+        let attempts = 0;
+        while (usedIndices.has(idx) && attempts < tagType.length) {
+          idx = (idx + 1) % tagType.length;
+          attempts++;
+        }
+        usedIndices.add(idx);
+        chosen.push(tagType[idx]);
+      }
+
+      // Ensure the first tag is always a strong "About" tag by swapping if needed
+      if (chosen.length > 0 && !chosen[0].includes(gameName)) {
+        // Find a tag that has the game name
+        for (let i = 1; i < tagType.length; i++) {
+          if (tagType[i].includes(gameName)) {
+            chosen[0] = tagType[i];
+            break;
+          }
+        }
+      }
+
+      // Also ensure the first tag contains the game name for SEO
+      if (!chosen[0].includes(gameName)) {
+        chosen[0] = `${gameName} is a popular gaming app offering a wide range of games and features for players of all skill levels.`;
+      }
+
+      // Return as an array of 4 unique tag strings
+      return chosen;
+    }
+
     var originalTitle = document.title;
     var originalDesc = document.querySelector('meta[name="description"]').getAttribute('content');
     var originalKeywords = document.querySelector('meta[name="keywords"]').getAttribute('content');
@@ -3687,210 +3733,6 @@
       }
     });
 
-    // ===== FUNCTION TO GENERATE 500-600 UNIQUE TEXT TAGS PER GAME =====
-    function generateGameTags(gameName, altName, bonus, withdrawal) {
-      const seed = gameName.length * 13 + gameName.charCodeAt(0) * 7 + gameName.charCodeAt(gameName.length - 1) * 3;
-      const bonusNum = parseInt(bonus.replace('₹', '')) || 45;
-      const bonusStr = '₹' + bonusNum;
-      
-      // Base word lists for variety
-      const topics = [
-        'Rummy', 'Slots', 'Teen Patti', 'Casino', 'Jackpot', 'Spin', 'Win', 'Bonus', 'Cash', 'Reward',
-        'Game', 'Play', 'Lucky', 'Gold', 'VIP', 'Pro', 'Master', 'Royal', 'Mega', 'Super',
-        'Fast', 'Secure', 'Trusted', 'Official', 'New', 'Updated', 'Premium', 'Classic', 'Modern', 'Digital'
-      ];
-      
-      const actions = [
-        'Download', 'Install', 'Play', 'Win', 'Earn', 'Spin', 'Bet', 'Join', 'Start', 'Claim',
-        'Get', 'Enjoy', 'Explore', 'Experience', 'Discover', 'Unlock', 'Access', 'Try', 'Use', 'Register'
-      ];
-      
-      const features = [
-        'Real Cash', 'UPI Withdrawal', 'Instant Bonus', 'Daily Rewards', 'Free Spins', 'Multiplayer',
-        'Live Dealer', 'Tournaments', 'Leaderboard', 'Achievements', 'Referral Program', 'Loyalty Points',
-        'Secure Payment', 'Fast Withdrawal', '24/7 Support', 'User Friendly', 'High RTP', 'Progressive Jackpot',
-        'Exclusive Offers', 'Weekly Promotions'
-      ];
-      
-      const gameTypeWords = [
-        'APK', 'App', 'Mobile', 'Android', 'Online', 'Real Money', 'Free', 'Paid', 'Premium', 'Standard',
-        'Digital', 'Virtual', 'Interactive', 'Engaging', 'Fun', 'Exciting', 'Thrilling', 'Popular', 'Top', 'Best'
-      ];
-      
-      const modifierWords = [
-        'Awesome', 'Great', 'Amazing', 'Fantastic', 'Incredible', 'Outstanding', 'Excellent', 'Superb',
-        'Brilliant', 'Marvelous', 'Terrific', 'Wonderful', 'Fabulous', 'Spectacular', 'Phenomenal'
-      ];
-      
-      // Generate 500+ unique tags
-      const tagSet = new Set();
-      
-      // 1. Game name variations
-      tagSet.add(gameName);
-      if (altName && altName !== gameName) tagSet.add(altName);
-      tagSet.add(gameName + ' APK');
-      tagSet.add(gameName + ' Game');
-      tagSet.add('Download ' + gameName);
-      tagSet.add('Play ' + gameName);
-      tagSet.add(gameName + ' Online');
-      
-      // 2. Bonus & rewards
-      tagSet.add('Sign Up Bonus ' + bonus);
-      tagSet.add('Welcome Bonus ' + bonus);
-      tagSet.add('Free Bonus ' + bonus);
-      tagSet.add('Instant Bonus ' + bonus);
-      tagSet.add('Claim ' + bonus + ' Bonus');
-      tagSet.add(bonus + ' Welcome Gift');
-      tagSet.add('Get ' + bonus + ' Free');
-      tagSet.add('Exclusive Bonus ' + bonus);
-      
-      // 3. Withdrawal
-      tagSet.add('Withdrawal ' + withdrawal);
-      tagSet.add('Min Withdrawal ' + withdrawal);
-      tagSet.add('Fast Withdrawal');
-      tagSet.add('UPI Withdrawal ' + withdrawal);
-      tagSet.add('Instant Withdrawal');
-      tagSet.add('Secure Withdrawal');
-      
-      // 4. Game type + features
-      const gameType = gameName.includes('RUMMY') || gameName.includes('Rummy') ? 'Rummy' :
-                      gameName.includes('SLOTS') || gameName.includes('Slots') ? 'Slots' :
-                      gameName.includes('TEEN PATTI') ? 'Teen Patti' :
-                      gameName.includes('SPIN') ? 'Spin' : 'Casino';
-      
-      tagSet.add(gameType + ' Game');
-      tagSet.add('Best ' + gameType + ' App');
-      tagSet.add('Top ' + gameType + ' Game');
-      tagSet.add('Real ' + gameType + ' Game');
-      tagSet.add('Play ' + gameType + ' Online');
-      tagSet.add(gameType + ' APK Download');
-      tagSet.add(gameType + ' with ' + bonus + ' Bonus');
-      
-      // 5. Features & benefits
-      features.forEach(f => tagSet.add(f));
-      
-      // 6. Actions + game
-      actions.forEach(a => tagSet.add(a + ' ' + gameName));
-      
-      // 7. Modifier + game
-      modifierWords.forEach(m => tagSet.add(m + ' ' + gameName));
-      
-      // 8. Game type + modifiers
-      const gameTypeMods = ['Best', 'Top', 'New', 'Updated', 'Premium', 'Official', 'Trusted', 'Secure', 'Fast', 'Exciting'];
-      gameTypeMods.forEach(m => tagSet.add(m + ' ' + gameType + ' Game'));
-      
-      // 9. Keywords related to game
-      const keywords = [
-        'real cash game', 'online earning', 'gaming app', 'casino game', 'card game', 'slot machine',
-        'jackpot game', 'lucky spin', 'daily bonus', 'referral earning', 'friends invite', 'play and win',
-        'earn money', 'cash rewards', 'bonus offers', 'special deals', 'limited time', 'new user offer',
-        'mobile gaming', 'android gaming', 'secure gaming', 'fair play', 'responsible gaming'
-      ];
-      keywords.forEach(k => tagSet.add(k));
-      
-      // 10. Combinations: game + keyword
-      const comboWords = ['Download', 'Play', 'Win', 'Earn', 'Claim', 'Get', 'Install', 'Start', 'Join', 'Try'];
-      const comboNouns = ['App', 'Game', 'APK', 'Platform', 'Site', 'Portal'];
-      comboWords.forEach(w => {
-        comboNouns.forEach(n => {
-          tagSet.add(w + ' ' + gameName + ' ' + n);
-        });
-      });
-      
-      // 11. Variations of "best/top + game"
-      ['Best', 'Top', 'No.1', 'Leading', 'Popular', 'Trending'].forEach(adj => {
-        tagSet.add(adj + ' ' + gameType + ' App');
-        tagSet.add(adj + ' ' + gameType + ' Game ' + gameName);
-        tagSet.add(adj + ' ' + gameName);
-      });
-      
-      // 12. Download related
-      tagSet.add('Download APK ' + gameName);
-      tagSet.add('Install ' + gameName + ' App');
-      tagSet.add('Free Download ' + gameName);
-      tagSet.add('Quick Download ' + gameName);
-      tagSet.add('Direct Download ' + gameName);
-      
-      // 13. Support/Help related
-      tagSet.add('24/7 Support ' + gameName);
-      tagSet.add('Help Center ' + gameName);
-      tagSet.add('Customer Care ' + gameName);
-      tagSet.add('FAQs ' + gameName);
-      tagSet.add('Guide ' + gameName);
-      
-      // 14. Payment related
-      tagSet.add('UPI Payment ' + gameName);
-      tagSet.add('Bank Transfer ' + gameName);
-      tagSet.add('Secure Payment ' + gameName);
-      tagSet.add('Fast Payment ' + gameName);
-      tagSet.add('Payment Options ' + gameName);
-      
-      // 15. Safety & trust
-      tagSet.add('Secure ' + gameName);
-      tagSet.add('Trusted ' + gameName);
-      tagSet.add('Verified ' + gameName);
-      tagSet.add('Safe ' + gameName);
-      tagSet.add('Reliable ' + gameName);
-      
-      // 16. Community/Social
-      tagSet.add('Community ' + gameName);
-      tagSet.add('Players ' + gameName);
-      tagSet.add('Friends ' + gameName);
-      tagSet.add('Social ' + gameName);
-      tagSet.add('Multiplayer ' + gameName);
-      
-      // 17. Extra random combinations
-      const extras = ['Pro', 'Max', 'Ultra', 'Plus', 'Premium', 'Deluxe', 'Gold', 'Platinum', 'Diamond', 'Royal'];
-      extras.forEach(e => tagSet.add(gameName + ' ' + e));
-      extras.forEach(e => tagSet.add(e + ' ' + gameType));
-      
-      // 18. More variations
-      ['New', 'Latest', 'Updated', 'Modern', 'Classic', 'Original'].forEach(adj => {
-        tagSet.add(adj + ' ' + gameName);
-        tagSet.add(gameName + ' ' + adj);
-      });
-      
-      // 19. "How to" phrases
-      ['How to Download', 'How to Install', 'How to Play', 'How to Win', 'How to Earn', 'How to Register'].forEach(phrase => {
-        tagSet.add(phrase + ' ' + gameName);
-      });
-      
-      // 20. "Best way to" phrases
-      ['Best way to Play', 'Best way to Win', 'Best way to Earn', 'Best way to Join'].forEach(phrase => {
-        tagSet.add(phrase + ' ' + gameName);
-      });
-      
-      // Ensure we have at least 500 tags by adding more combinations
-      let counter = 0;
-      const extraWords1 = ['Awesome', 'Great', 'Amazing', 'Fantastic', 'Incredible', 'Outstanding', 'Excellent', 'Superb', 'Brilliant', 'Marvelous'];
-      const extraWords2 = ['Download', 'Install', 'Play', 'Win', 'Earn', 'Spin', 'Bet', 'Join', 'Start', 'Claim', 'Get', 'Enjoy', 'Explore', 'Experience', 'Discover', 'Unlock', 'Access', 'Try', 'Use', 'Register'];
-      const extraWords3 = ['Rummy', 'Slots', 'Teen Patti', 'Casino', 'Jackpot', 'Spin', 'Win', 'Bonus', 'Cash', 'Reward'];
-      
-      while (tagSet.size < 520 && counter < 500) {
-        counter++;
-        const w1 = extraWords1[counter % extraWords1.length];
-        const w2 = extraWords2[(counter * 3) % extraWords2.length];
-        const w3 = extraWords3[(counter * 7) % extraWords3.length];
-        const suffix = ['Game', 'App', 'APK', 'Platform', 'Site'][counter % 5];
-        if (counter % 3 === 0) tagSet.add(w1 + ' ' + w2 + ' ' + gameName);
-        else if (counter % 3 === 1) tagSet.add(gameName + ' ' + w1 + ' ' + w3);
-        else tagSet.add(w2 + ' ' + w3 + ' ' + suffix);
-      }
-      
-      // Convert to array, shuffle and return
-      let tags = Array.from(tagSet);
-      // Shuffle with seed-based order
-      for (let i = tags.length - 1; i > 0; i--) {
-        const j = Math.floor((i * 7 + seed) % (i + 1));
-        [tags[i], tags[j]] = [tags[j], tags[i]];
-      }
-      
-      // Limit to 600 tags
-      if (tags.length > 600) tags = tags.slice(0, 600);
-      
-      return tags;
-    }
-
     function generateReferralData(gameName, bonus) {
       var seed = gameName.length * 7 + gameName.charCodeAt(0);
       var refBonus = 15 + (seed % 35);
@@ -4193,8 +4035,19 @@
       var linkUrl = refLinkText.querySelector('.link-url');
       linkUrl.textContent = 'https://www.earntp.com/m/jm9n7r';
 
-      var tagContainer = document.getElementById('tagGridContainer');
+      // ==============================================================
+      // UNIQUE TAG SECTION — "About" tags below Top Offers
+      // ==============================================================
+      // Generate 4 unique tags for this game using the dynamic system
+      const uniqueTags = generateUniqueTags(game.name, game.altName || game.name, game.bonus);
+
+      // We will insert these tags as normal HTML text paragraphs inside the tag-section.
+      // Find the tag-grid container and append a new tag-box with these tags.
+      const tagContainer = document.getElementById('tagGridContainer');
+      // Clear existing tags first (Top Offers)
       tagContainer.innerHTML = '';
+
+      // First, add the Top Offers (existing functionality)
       var tagItems = generateTopOfferTags(game.name, game.bonus, game.altName);
       tagItems.forEach(function(item) {
         var box = document.createElement('div');
@@ -4209,18 +4062,41 @@
         tagContainer.appendChild(box);
       });
 
-      // ===== GENERATE AND RENDER 500-600 UNIQUE TEXT TAGS =====
-      const tags = generateGameTags(game.name, game.altName, game.bonus, game.withdrawal);
-      const tagsContainer = document.getElementById('gameTagsContainer');
-      const tagsTitle = document.getElementById('gameTagsTitle');
-      tagsTitle.textContent = game.name + ' – Information Tags (' + tags.length + ' tags)';
-      tagsContainer.innerHTML = '';
-      tags.forEach(function(tagText) {
-        const span = document.createElement('span');
-        span.className = 'info-tag-item';
-        span.textContent = tagText;
-        tagsContainer.appendChild(span);
+      // Now add the Unique "About" tags for this specific game
+      // Create a new tag-box with a special "About" heading
+      const aboutTagBox = document.createElement('div');
+      aboutTagBox.className = 'tag-box';
+      aboutTagBox.style.borderColor = '#2563eb';
+      aboutTagBox.style.borderLeft = '4px solid #2563eb';
+
+      const aboutHead = document.createElement('div');
+      aboutHead.className = 'tag-head';
+      aboutHead.innerHTML = `
+        <span class="svg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px; height:18px;">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+        </span>
+        <span style="color:#2563eb;">About ${game.name}</span>
+      `;
+      aboutTagBox.appendChild(aboutHead);
+
+      // Add each unique tag as a paragraph
+      uniqueTags.forEach(tagText => {
+        const p = document.createElement('p');
+        p.className = 'tag-content';
+        p.style.marginBottom = '6px';
+        p.style.paddingLeft = '6px';
+        p.style.fontSize = '0.7rem';
+        p.style.color = '#1e293b';
+        p.style.lineHeight = '1.6';
+        p.textContent = tagText;
+        aboutTagBox.appendChild(p);
       });
+
+      tagContainer.appendChild(aboutTagBox);
 
       var relatedGrid = document.getElementById('relatedGrid');
       relatedGrid.innerHTML = '';
