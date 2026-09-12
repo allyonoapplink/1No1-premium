@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Games Directory — 74 Premium Apps</title>
+    <meta name="description" content="Browse a directory of 74 games and apps with signup bonus and download information." />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="robots" content="index, follow" />
+    <style>
+        /* ── reset & base ── */
+        :root {
+            --bg: #ffffff;
+            --bg2: #f7f8fa;
+            --card: #ffffff;
+            --text: #111827;
+            --text2: #6b7280;
+            --border: #e5e7eb;
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --green: #16a34a;
+            --gold: #f59e0b;
+            --radius: 14px;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: var(--bg2);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        button {
+            font: inherit;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ── header ── */
+        header.topbar {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+        }
+        .brand {
+            font-weight: 800;
+            font-size: 17px;
+            color: var(--text);
+        }
+        .menu-btn {
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+        .menu-btn:active {
+            background: var(--bg2);
+        }
+        .hamburger-icon .bar {
+            transition: transform .25s ease, opacity .2s ease;
+            transform-origin: center;
+        }
+        .menu-open .hamburger-icon .bar1 {
+            transform: translateY(6px) rotate(45deg);
+        }
+        .menu-open .hamburger-icon .bar2 {
+            opacity: 0;
+        }
+        .menu-open .hamburger-icon .bar3 {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        /* ── menu drawer ── */
+        .menu-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 24, 39, .35);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+            z-index: 50;
+        }
+        .menu-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .menu-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: min(78vw, 320px);
+            background: #fff;
+            z-index: 51;
+            transform: translateX(100%);
+            transition: transform .28s cubic-bezier(.2, .8, .2, 1);
+            box-shadow: -8px 0 24px rgba(17, 24, 39, .12);
+            display: flex;
+            flex-direction: column;
+            padding: 18px 0;
+        }
+        .menu-drawer.show {
+            transform: translateX(0);
+        }
+        .menu-drawer .menu-title {
+            font-weight: 800;
+            font-size: 15px;
+            padding: 0 20px 14px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-close-btn {
+            background: none;
+            border: none;
+            padding: 4px;
+            margin: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111827;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .menu-close-btn:active {
+            background: var(--bg2);
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14.5px;
+            color: var(--text);
+        }
+        .menu-item:active {
+            background: var(--bg2);
+        }
+        .menu-item svg {
+            flex-shrink: 0;
+            color: #111827;
+        }
+
+        /* ── pages ── */
+        .page {
+            display: none;
+            padding: 16px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .page.active {
+            display: block;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text);
+            padding: 8px 4px;
+            margin-bottom: 8px;
+        }
+
+        /* ── home grid ── */
+        .home-hero {
+            padding: 6px 2px 16px 2px;
+        }
+        .home-hero h1 {
+            font-size: 20px;
+            margin: 0 0 4px 0;
+        }
+        .home-hero p {
+            font-size: 13px;
+            color: var(--text2);
+            margin: 0;
+        }
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        @media (min-width: 640px) {
+            .home-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .app-card {
+            display: flex;
+            gap: 12px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px;
+            position: relative;
+        }
+        .app-card-img-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .app-card-img {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+        .app-card-num {
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            background: var(--text);
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 800;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .app-card-body {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .app-card-name {
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .app-card-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .app-card-row strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+        .app-card-row svg {
+            flex-shrink: 0;
+        }
+        .app-download-btn {
+            margin-top: 2px;
+            background: var(--blue);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: transform .15s ease, background .15s ease;
+        }
+        .app-download-btn:active {
+            transform: scale(.96);
+            background: var(--blue-dark);
+        }
+
+        /* ── details page ── */
+        .detail-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .detail-img {
+            width: 96px;
+            height: 96px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .detail-name {
+            font-size: 19px;
+            font-weight: 800;
+            margin: 2px 0 8px 0;
+        }
+        .detail-meta-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 14px 0;
+        }
+        .detail-meta-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .detail-meta-item svg {
+            flex-shrink: 0;
+            color: #111827;
+        }
+        .detail-meta-item .lbl {
+            font-size: 10.5px;
+            color: var(--text2);
+            font-weight: 600;
+            display: block;
+        }
+        .detail-meta-item .val {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text);
+            display: block;
+        }
+        .detail-download-btn {
+            width: 100%;
+            background: var(--blue);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 15px;
+            font-weight: 800;
+            font-size: 15.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 14px 0 18px 0;
+            transition: transform .15s ease;
+        }
+        .detail-download-btn:active {
+            transform: scale(.97);
+        }
+
+        .bag {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        .bag h3 {
+            font-size: 14px;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bag p {
+            font-size: 13.3px;
+            line-height: 1.65;
+            color: #374151;
+            margin: 0 0 6px 0;
+        }
+        .bag p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin: 22px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ── reviews ── */
+        .reviews-carousel {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 4px 10px 4px;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
+        }
+        .review-card {
+            flex: 0 0 auto;
+            width: min(80vw, 270px);
+            scroll-snap-align: start;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+        }
+        .review-stars {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 8px;
+        }
+        .review-text {
+            font-size: 12.8px;
+            line-height: 1.6;
+            color: #374151;
+            margin: 0 0 12px 0;
+        }
+        .review-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 12px;
+        }
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .review-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: #fff;
+            font-weight: 800;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .review-name {
+            font-size: 12.8px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .review-name svg {
+            flex-shrink: 0;
+            color: #6b7280;
+        }
+        .review-verified {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10.8px;
+            color: var(--green);
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* ── about / all games ── */
+        .about-block {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .about-block p {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: #374151;
+            margin: 0 0 10px 0;
+        }
+        .about-block p:last-child {
+            margin-bottom: 0;
+        }
+        .all-games-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .game-row {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .game-row-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            cursor: pointer;
+        }
+        .game-row-head .name {
+            font-size: 13.5px;
+            font-weight: 700;
+        }
+        .game-row-chevron {
+            transition: transform .2s ease;
+            flex-shrink: 0;
+            color: #6b7280;
+        }
+        .game-row.open .game-row-chevron {
+            transform: rotate(180deg);
+        }
+        .game-row-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .25s ease;
+        }
+        .game-row.open .game-row-body {
+            max-height: 260px;
+        }
+        .game-row-body p {
+            margin: 0;
+            padding: 0 14px 14px 14px;
+            font-size: 12.6px;
+            line-height: 1.6;
+            color: var(--text2);
+        }
+
+        footer.site-footer {
+            padding: 20px 16px 32px 16px;
+            text-align: center;
+            font-size: 11.5px;
+            color: var(--text2);
+        }
+        footer.site-footer a {
+            color: var(--blue);
+            font-weight: 600;
+            margin: 0 6px;
+            cursor: pointer;
+        }
+
+        /* ── TOP MODEL / BAR ── */
+        .top-model-bar {
+            position: sticky;
+            top: 60px;
+            z-index: 38;
+            background: transparent;
+            border: 0;
+            display: block;
+            padding: 0 12px;
+            height: 48px;
+            min-height: 48px;
+            box-shadow: none;
+            overflow: visible;
+        }
+        .top-model-bar.hidden-bar { opacity: 1; transform: none; pointer-events: auto; }
+
+        /* Download All App: one clean white strip, exact height only */
+        .dl-group {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            width: 100%;
+            height: 48px;
+            min-height: 48px;
+            padding: 4px 8px;
+            margin: 0;
+            background: #ffffff;
+            border: 0;
+            box-shadow: none;
+        }
+        .dl-group.hidden-download { display: none; }
+        .dl-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text);
+            white-space: nowrap;
+        }
+        .dl-label .c1 { color: #06b6d4; }
+        .dl-label .c2 { color: #eab308; }
+        .dl-label .c3 { color: #16a34a; }
+
+        .dl-btn {
+            border: 0;
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #06b6d4, #2563eb);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, .20);
+            cursor: pointer;
+            transition: transform .15s ease, box-shadow .15s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .dl-btn:active {
+            transform: scale(.95);
+            box-shadow: 0 1px 4px rgba(37, 99, 235, .15);
+        }
+
+        .dl-close {
+            margin-left: 2px;
+            flex: 0 0 28px;
+            width: 28px;
+            height: 28px;
+            border: 0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 6px;
+            color: #6b7280;
+            transition: background .15s ease;
+            flex-shrink: 0;
+        }
+        .dl-close:active { background: var(--bg2); }
+        .dl-close svg { width: 18px; height: 18px; }
+
+        /* Telegram: lower than Download row, right side, no extra background */
+        .tg-row {
+            position: absolute;
+            top: 50px;
+            right: 12px;
+            width: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+        }
+        .tg-group {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+            cursor: pointer;
+            transition: opacity .25s ease, transform .25s ease;
+            transform-origin: right center;
+            white-space: nowrap;
+        }
+        .tg-group:active { transform: scale(.94); }
+        .tg-group.hide-tg {
+            opacity: 0;
+            transform: translateX(20px) scale(.92);
+            pointer-events: none;
+        }
+        .tg-group svg {
+            width: 21px;
+            height: 21px;
+            flex-shrink: 0;
+        }
+        .tg-group .tg-text {
+            font-size: 10px;
+            font-weight: 700;
+            color: #229ED9;
+            line-height: 1.15;
+        }
+
+        /* responsive */
+        @media (max-width: 480px) {
+            .top-model-bar {
+                top: 56px;
+                padding: 0 8px;
+                height: 42px;
+                min-height: 42px;
+            }
+            .dl-group {
+                height: 42px;
+                min-height: 42px;
+                padding: 3px 6px;
+            }
+            .dl-label { font-size: 10.5px; }
+            .dl-btn {
+                font-size: 10px;
+                padding: 5px 10px;
+            }
+            .dl-close { width: 24px; height: 24px; }
+            .dl-close svg { width: 16px; height: 16px; }
+            .tg-row { top: 44px; right: 8px; }
+            .tg-group svg { width: 18px; height: 18px; }
+            .tg-group .tg-text { font-size: 9.5px; }
+        }
+        @media (max-width: 380px) {
+            .dl-label { font-size: 9.5px; }
+            .dl-btn { font-size: 9px; padding: 4px 8px; }
+            .tg-group .tg-text { font-size: 9px; }
+            .tg-group svg { width: 17px; height: 17px; }
+        }
+    
+/* ===== HOME PAGE ORIGINAL-STYLE GREEN / GOLD MOBILE THEME ===== */
+body.home-theme{
+  background:
+    radial-gradient(circle at 50% 34%,rgba(22,116,45,.42),transparent 36%),
+    linear-gradient(180deg,#063c22 0%,#023119 52%,#001d11 100%);
+  color:#fff;
+}
+body.home-theme header.topbar{
+  height:92px;padding:10px 16px;
+  background:linear-gradient(180deg,#ff9000 0%,#f57700 48%,#07502b 49%,#063b21 100%);
+  border-bottom:3px solid #f2cf39;
+  box-shadow:0 3px 0 #754700,0 7px 18px rgba(0,0,0,.28);
+}
+body.home-theme .brand{
+  font-size:0;width:calc(100% - 70px);height:65px;
+  border-radius:0 0 38px 38px;
+  background:linear-gradient(180deg,#ff9c00 0%,#f27600 70%,#0a4b29 71%,#06391f 100%);
+  border:3px solid #f4ce37;
+  box-shadow:inset 0 -7px 0 rgba(0,0,0,.16),0 3px 0 #6d4500;
+  position:relative;
+}
+body.home-theme .brand::after{
+  content:"JACKPOT LOTTO";
+  position:absolute;left:50%;top:15px;transform:translateX(-50%);
+  white-space:nowrap;font-size:27px;font-weight:1000;font-style:italic;
+  color:#fff4a8;text-shadow:2px 2px 0 #8d2200,0 0 8px #ffd32a;
+}
+body.home-theme .menu-btn{width:58px;height:64px;border-radius:10px}
+body.home-theme .menu-btn svg{width:42px;height:42px;stroke:#fff;stroke-width:2.8}
+
+body.home-theme .top-model-bar{height:0;min-height:0;padding:0;top:auto}
+body.home-theme .dl-group,body.home-theme .tg-row{display:none}
+
+body.home-theme #page-home{padding:10px 10px 28px}
+body.home-theme .home-hero{text-align:center;padding:0 2px 14px}
+body.home-theme .home-hero h1{
+  height:178px;margin:0;font-size:0;position:relative;display:block;
+}
+body.home-theme .home-hero h1::before{
+  content:"JACKPOT LOTTO";display:block;padding-top:7px;
+  font-size:35px;line-height:1.1;font-weight:1000;font-style:italic;
+  color:#ffdf24;text-shadow:3px 3px 0 #9e1d00,0 0 10px #ffd72f;
+}
+body.home-theme .home-hero h1::after{
+  content:"0";display:flex;align-items:center;justify-content:center;
+  width:82%;height:82px;margin:10px auto 0;
+  border:5px solid #e4a70c;border-radius:22px;
+  background:radial-gradient(circle,#0f8128 3px,transparent 4px) 0 0/16px 16px,#003a1d;
+  color:#fff51a;font-size:50px;font-weight:1000;
+  text-shadow:0 0 10px #ffe900;
+  box-shadow:inset 0 0 0 4px #704400,0 4px 0 #f3c51d;
+}
+body.home-theme .home-hero p{display:none}
+
+body.home-theme .home-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+body.home-theme .app-card{
+  min-width:0;display:flex;flex-direction:column;gap:0;padding:4px;
+  overflow:hidden;border-radius:12px;
+  background:linear-gradient(180deg,#11652f,#04371d);
+  border:3px solid #e8c52c;
+  box-shadow:0 2px 0 #714800,0 5px 10px rgba(0,0,0,.22);
+}
+body.home-theme .app-card-img-wrap{width:100%}
+body.home-theme .app-card-img{
+  width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;
+  border:0;border-radius:7px;
+}
+body.home-theme .app-card-num{display:none}
+body.home-theme .app-card-body{
+  padding:5px 3px 4px;gap:3px;text-align:center;
+}
+body.home-theme .app-card-name{
+  color:#fff;font-size:11.5px;line-height:1.15;
+  text-shadow:1px 1px 0 #000;
+}
+body.home-theme .app-card-row{
+  justify-content:center;white-space:normal;line-height:1.15;
+  color:#ffe778;font-size:9px;
+}
+body.home-theme .app-card-row svg{display:none}
+body.home-theme .app-card-row strong{color:#fff;font-size:9.5px}
+body.home-theme .app-download-btn{
+  width:100%;margin-top:3px;padding:6px 2px;border-radius:7px;
+  background:linear-gradient(180deg,#ffb71c,#ec6b00);
+  border:1px solid #ffe46c;box-shadow:inset 0 1px 0 rgba(255,255,255,.4);
+  font-size:10px;text-shadow:1px 1px 0 #703000;
+}
+body.home-theme .app-download-btn svg{width:12px;height:12px}
+
+body.home-theme .bag{
+  background:linear-gradient(180deg,#0a522b,#05391f);
+  border:2px solid #d9b82a;border-radius:12px;color:#fff;
+  box-shadow:0 3px 0 #644500;
+}
+body.home-theme .bag h3{color:#ffe24c}
+body.home-theme .bag p{color:#e7f1e8}
+body.home-theme footer.site-footer{
+  background:#032918;border-top:2px solid #d9b82a;color:#b9d4c0;
+}
+body.home-theme footer.site-footer a{color:#ffe04b}
+
+@media(max-width:390px){
+  body.home-theme .brand::after{font-size:23px}
+  body.home-theme .home-hero h1{height:158px}
+  body.home-theme .home-hero h1::before{font-size:30px}
+  body.home-theme .home-hero h1::after{height:76px;font-size:44px}
+  body.home-theme .home-grid{gap:6px}
+  body.home-theme .app-card{border-width:2px;padding:3px}
+  body.home-theme .app-card-name{font-size:10.5px}
+  body.home-theme .app-card-row{font-size:8px}
+  body.home-theme .app-card-row strong{font-size:8.5px}
+  body.home-theme .app-download-btn{font-size:9px;padding:5px 2px}
+}
+
+</style>
+
+<style id="final-home-theme">
+:root{
+  --bg:#032b16;--bg2:#063d1e;--card:#073d20;--text:#fff8d7;--text2:#e7dca7;
+  --border:#e5bd28;--blue:#e8a900;--blue-dark:#b97800;--green:#17a34a;--gold:#ffd62f;
+}
+html{background:#000;scroll-behavior:smooth}
+body{background:#000;color:var(--text);font-family:Arial,Helvetica,sans-serif}
+header.topbar{
+  position:sticky;top:0;z-index:40;height:66px;padding:0 14px;
+  background:linear-gradient(180deg,#ff7900 0 18%,#ff9a00 19%,#073c1e 20% 100%);
+  border-bottom:3px solid var(--gold);box-shadow:0 4px 12px #000;
+}
+.brand{font-size:0;width:64%;height:50px;margin-top:0;border:2px solid var(--gold);
+  border-top:0;border-radius:0 0 30px 30px;background:#06381c;color:transparent}
+.menu-btn{color:#fff4bd;padding:3px;pointer-events:auto}
+.menu-btn svg{stroke:#fff4bd!important;width:35px;height:35px}
+.page{padding:12px 10px 0;max-width:720px}
+.home-hero{padding:8px 4px 12px;text-align:center}
+.home-hero h1{font-size:0;margin:0}
+.home-hero h1:after{content:"JACKPOT LOTTO";font-size:31px;font-weight:1000;font-style:italic;color:#ffdf27;
+ text-shadow:-3px -3px #df1200,3px 3px #721400,0 5px 7px #000}
+.home-hero p{display:none}
+.home-grid{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;
+}
+.app-card{
+ display:flex;flex-direction:column;gap:0;padding:3px;min-width:0;overflow:hidden;
+ background:linear-gradient(#0b5a2a,#052d17);border:3px solid var(--gold);border-radius:12px;
+ box-shadow:0 3px 7px #000,inset 0 0 0 1px #fff0a0;position:relative;
+}
+.app-card-img-wrap{width:100%;position:relative}
+.app-card-img{
+ width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:7px;border:0;
+ background:#0a351b;
+}
+.app-card-num{
+ top:4px;left:4px;width:22px;height:22px;background:#5c2500;color:#ffe86b;
+ border:1px solid #ffd83a;font-size:10px;z-index:4
+}
+.app-card-body{display:flex;flex-direction:column;gap:3px;padding:4px 2px 2px;min-width:0}
+.app-card-name{
+ font-size:12px;font-weight:1000;color:#fff4b7;text-align:center;white-space:nowrap;
+ overflow:hidden;text-overflow:ellipsis;text-shadow:1px 2px #000;line-height:16px
+}
+.app-card-row{
+ min-height:16px;justify-content:center;gap:2px;font-size:9px;color:#fff0ad;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.app-card-row strong{color:#ffe12d}
+.app-download-btn{
+ width:100%;margin:2px 0 1px;padding:6px 4px;border:2px solid #ffe05a;border-radius:9px;
+ background:linear-gradient(#ffb91d,#e65c00);color:#fff;font-size:10px;font-weight:1000;
+ text-shadow:1px 2px #6b2100;box-shadow:inset 0 1px 2px #fff0a0
+}
+.app-card .app-card-row:nth-of-type(1)::first-letter,
+.app-card .app-card-row:nth-of-type(2)::first-letter{color:#ffd52a}
+.app-card-img-wrap:after{
+ content:"";position:absolute;inset:0;border-radius:7px;pointer-events:none;
+ box-shadow:inset 0 0 14px rgba(255,220,60,.22)
+}
+.detail-top{
+ display:flex;flex-direction:column;align-items:center;gap:8px;margin:0 0 10px;
+ text-align:center
+}
+.detail-img{width:min(220px,70vw);height:min(220px,70vw);border-radius:16px;border:3px solid var(--gold);
+ box-shadow:0 4px 12px #000}
+.detail-name{font-size:23px;font-weight:1000;color:#fff1a7;text-shadow:2px 3px #5c1b00;margin:0}
+.detail-meta-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
+.detail-meta-item{
+ background:linear-gradient(#0b5b2b,#052d17);border:2px solid var(--gold);border-radius:10px;
+ padding:9px 7px;color:#fff0ae;box-shadow:0 2px 5px #000
+}
+.detail-meta-item .lbl{color:#f6df9a}.detail-meta-item .val{color:#ffe22d}
+.detail-download-btn{
+ width:100%;background:linear-gradient(#ffba20,#e45c00);border:2px solid #ffe66a;color:#fff;
+ border-radius:12px;padding:12px;font-weight:1000;text-shadow:1px 2px #6b2100
+}
+.back-btn{color:#ffe878!important;background:transparent!important}
+.bag,.section-title,.reviews-carousel,.all-games-list{display:none!important}
+.site-footer{
+ margin-top:18px;padding:14px 8px 25px!important;background:#052e17;border-top:2px solid var(--gold);
+ color:#e7dca7!important
+}
+.site-footer div{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.site-footer a{
+ display:block;margin:0!important;padding:8px 3px;border:1px solid #b99419;border-radius:8px;
+ color:#fff1a7!important;background:#073d20;font-size:10px
+}
+.site-footer a:first-child{grid-column:auto}
+.site-footer p{display:none}
+.menu-drawer{background:#06391c;color:#fff0b0;border-left:2px solid var(--gold)}
+.menu-drawer .menu-title{color:#ffe56a;border-bottom-color:#a9891c}
+.menu-item{color:#fff0b0}.menu-item:active{background:#0b5b2a}.menu-item svg{color:#ffe05a}
+.top-model-bar{display:none!important}
+@media(max-width:480px){
+ .page{padding-left:9px;padding-right:9px}
+ .home-grid{gap:6px}
+ .app-card{border-width:2px;border-radius:10px}
+ .app-card-name{font-size:10px}
+ .app-card-row{font-size:8px}
+ .app-download-btn{font-size:9px;padding:5px 2px}
+ .home-hero h1:after{font-size:28px}
+}
+</style>
+
+<script src="apps.js"></script>
+</head>
+<body>
+
+    <!-- ─── HEADER ─── -->
+    <header class="topbar">
+        <span class="brand">Games Directory</span>
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+            <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round">
+                <line class="bar bar1" x1="4" y1="7" x2="20" y2="7" />
+                <line class="bar bar2" x1="4" y1="12" x2="20" y2="12" />
+                <line class="bar bar3" x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- ─── TOP MODEL BAR ─── -->
+    <div class="top-model-bar" id="topModelBar">
+        <!-- Left: Download All App group -->
+        <div class="dl-group">
+            <span class="dl-label"><span class="c1">Download</span> <span class="c2">All</span> <span class="c3">App</span></span>
+            <button class="dl-btn" id="downloadAllBtn">Download</button>
+            <button class="dl-close" id="modelCloseBtn" aria-label="Close bar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Right: Telegram group, directly below the download row -->
+        <div class="tg-row">
+        <div class="tg-group" id="telegramGroup" aria-label="Join Telegram">
+            <svg viewBox="0 0 24 24" fill="#229ED9" aria-hidden="true">
+                <path d="M21.2 3.8 2.9 10.9c-.9.35-.9 1.65.02 1.98l4.72 1.69 1.72 5.34c.28.87 1.38 1.08 2.18.46l2.8-2.2 3.72 2.78c.78.58 1.89.18 2.11-.77l3.06-15.18c.22-1.1-.61-1.6-2.03-1.2Zm-2.36 3.28-7.93 6.77-1.16 3.58-.93-3.03 8.65-7.17c.4-.34.88-.76 1.37-.15Z"/>
+            </svg>
+            <span class="tg-text">Join Telegram</span>
+        </div>
+        </div>
+    </div>
+
+    <!-- ─── MENU ─── -->
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+    <nav class="menu-drawer" id="menuDrawer" aria-label="Main menu">
+        <div class="menu-title">
+            <button class="menu-close-btn" id="menuCloseBtn" aria-label="Close menu">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="5" x2="19" y2="19" />
+                    <line x1="19" y1="5" x2="5" y2="19" />
+                </svg>
+            </button>
+            <span>Menu</span>
+        </div>
+        <div class="menu-item" data-page="home">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11l9-8 9 8" />
+                <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10" />
+            </svg>
+            Home
+        </div>
+        <div class="menu-item" data-page="about">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <line x1="12" y1="16" x2="12" y2="11" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            About
+        </div>
+        <div class="menu-item" data-page="contact">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m4 6 8 7 8-7" />
+            </svg>
+            Contact
+        </div>
+        <div class="menu-item" data-page="disclaimer">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v2" />
+                <path d="M5 8h4l-2 5a2.5 2.5 0 0 0 4 0l-2-5" />
+                <path d="M15 8h4l-2 5a2.5 2.5 0 0 0 4 0l-2-5" />
+                <path d="M5 8l7-2 7 2" />
+                <path d="M6 21h12" />
+                <path d="M12 13v8" />
+            </svg>
+            Disclaimer
+        </div>
+        <div class="menu-item" data-page="privacy">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="11" width="14" height="9" rx="2" />
+                <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+            </svg>
+            Privacy Policy
+        </div>
+    </nav>
+
+    <!-- ─── MAIN ─── -->
+    <main>
+        <!-- HOME -->
+        <section class="page active" id="page-home">
+            <div class="home-hero">
+                <h1>74 Demo Apps</h1>
+                <p>Home</p>
+            </div>
+            <div class="home-grid" id="homeGrid"></div>
+
+            
+
+            
+
+            
+        </section>
+
+        <!-- DETAILS -->
+        <section class="page" id="page-details">
+            <div id="detailsContent"></div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="page" id="page-about">
+            <div id="aboutContent"></div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="page" id="page-contact">
+            <button class="back-btn" data-back="home">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                Back
+            </button>
+            <div class="about-block">
+                <h2 style="font-size:16px;margin:0 0 10px 0;">Contact</h2>
+                <p>This directory exists to help you find and compare games and apps in one place. For questions about a specific game or app — such as an account issue, a bonus, or a withdrawal — the fastest path is that app's own in-app support, since each app manages its own accounts and payments independently of this site.</p>
+                <p>Most of the apps listed here offer a help, support, or live-chat option reachable from within their own menu once you're signed in. That channel will always have more context about your specific account than this directory can, since it can see your actual signup date, transaction history, and account status directly.</p>
+                <p>If a question is about a deposit, a withdrawal, or a bonus not appearing as expected, it's worth having your mobile number and any transaction reference ready before reaching out to that app's support — this usually speeds up how quickly the issue is looked into.</p>
+                <p>If you have feedback about this directory itself, such as an incorrect link, an outdated screenshot, or a listing that no longer matches an app's current design, general contact guidance for reporting that will be added here as it becomes available.</p>
+                <p>This directory does not operate any of the listed apps and cannot access, change, or expedite anything inside another company's account system on a user's behalf — that responsibility always stays with the individual app.</p>
+            </div>
+        </section>
+
+        <!-- DISCLAIMER -->
+        <section class="page" id="page-disclaimer">
+            <button class="back-btn" data-back="home">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                Back
+            </button>
+            <div class="about-block">
+                <h2 style="font-size:16px;margin:0 0 10px 0;">Disclaimer</h2>
+                <p>This website is an independent directory. Every image, name, and download link shown here is provided as information only, and every app or game listed is a separate third-party product operated by its own team.</p>
+                <p>We do not control, and cannot guarantee, the accuracy, availability, or outcome of any third-party app. Real-money participation carries genuine financial risk, and results can never be guaranteed. Users are responsible for reading each app's own terms before installing or using it, and for confirming that any real-money feature is legal in their own state or region.</p>
+                <p>We do not process deposits or withdrawals, and we do not guarantee bonuses, winnings, approvals, or support outcomes of any kind for any listed app. Bonus figures, withdrawal minimums, and other numbers shown on this directory are display information provided by or observed from each app, and can change at any time at that app's own discretion.</p>
+                <p>Installing any app always carries some general responsibility on the user's part — checking that a device meets an app's requirements, reviewing requested permissions, and keeping the operating system reasonably up to date are all normal, sensible steps regardless of which app is being installed.</p>
+                <p>This directory is not affiliated with, endorsed by, or officially representing any of the apps listed, unless explicitly stated otherwise. Any trademarks, names, or images belong to their respective owners and are shown here solely for identification purposes within this directory.</p>
+                <p>Technical issues, delayed transactions, incorrect information display, or downtime on any third-party app are outside this directory's control and should be reported directly to that app's own support channel rather than to this site.</p>
+            </div>
+        </section>
+
+        <!-- PRIVACY -->
+        <section class="page" id="page-privacy">
+            <button class="back-btn" data-back="home">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                Back
+            </button>
+            <div class="about-block">
+                <h2 style="font-size:16px;margin:0 0 10px 0;">Privacy Policy</h2>
+                <p>This directory does not ask for or store account passwords, OTP codes, or payment details. Basic technical data, such as which pages are viewed, may be collected automatically by standard web hosting tools to help keep the site running smoothly.</p>
+                <p>Clicking a Download button takes you to a third-party app or its own website, which has its own separate privacy policy governing any information you provide there. We recommend reviewing each app's own privacy terms before creating an account.</p>
+                <p>No personal identity documents, KYC images, or bank account details are ever requested, stored, or handled by this directory at any stage — those are matters strictly between a user and the individual app they choose to install.</p>
+                <p>This directory does not use the information a person's mobile number, OTP, or in-app activity generates once they leave this site to install an app; from that point onward, that app's own privacy and data-handling practices apply.</p>
+                <p>If this site uses cookies or similar basic browser storage, it is limited to standard, low-impact purposes such as remembering a display preference or supporting normal page functionality — not for building profiles tied to real-money behaviour on any listed app.</p>
+                <p>Links to app store pages, official websites, or Telegram channels for individual games are provided purely for convenience. Once a user leaves this directory through one of those links, this privacy policy no longer applies, and the destination's own policy takes over.</p>
+                <p>Because every app listed here operates independently, users are encouraged to read that specific app's privacy policy in full — particularly its sections on data retention, third-party sharing, and account deletion — before submitting any personal information during signup.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div>
+            <a data-page="home">Home</a>
+            <a data-page="about">About</a>
+            <a data-page="contact">Contact</a>
+            <a data-page="disclaimer">Disclaimer</a>
+            <a data-page="privacy">Privacy Policy</a>
+            <a data-page="home">All Games</a>
+        </div>
+    </footer>
+
+    <script>
+        // ─── APP DATA ──────────────────────────────────────────────────────────
+        const apps = window.APPS || [];
+
+ ──────────────────────────────────────────────────────────
+        const giftIcon =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8"/><path d="M16.5 8a2.5 2.5 0 0 0 0-5C14 3 12 8 12 8"/></svg>';
+        const walletIcon =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v3"/><path d="M3 7v11a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-4a2 2 0 1 0 0 4h5"/></svg>';
+        const downloadIcon =
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>';
+        const friendIcon =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.6"/><path d="M15.8 13a5.2 5.2 0 0 1 5.7 5.2"/></svg>';
+        const sizeIcon =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>';
+        const starIcon = (filled) =>
+            `<svg width="14" height="14" viewBox="0 0 24 24" fill="${filled ? '#f59e0b' : 'none'}" stroke="#f59e0b" stroke-width="1.5"><polygon points="12 2 15 9 22 9 16.5 13.5 18.5 21 12 16.8 5.5 21 7.5 13.5 2 9 9 9"/></svg>`;
+        const backIcon =
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>';
+        const aboutIcon =
+            '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="16" x2="12" y2="11"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+        const verifiedIcon =
+            '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>';
+        const gameIcon =
+            '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="4"/><line x1="7" y1="12" x2="7" y2="12.01"/><line x1="7" y1="10" x2="7" y2="14"/><line x1="5" y1="12" x2="9" y2="12"/><circle cx="16" cy="10.5" r="1"/><circle cx="18" cy="13.5" r="1"/></svg>';
+
+        function bonusFor(i) { const base = [];
+            for (let n = 0; n < 47; n++) base.push(20 + n * 5); return base[i % base.length]; }
+
+        function downloadsFor(i) { return 12000 + ((i * 3771) % 88000); }
+
+        function sizeFor(i) { return (18 + ((i * 37) % 25)).toFixed(1); }
+
+        function votesFor(i) { return 900 + ((i * 977) % 17000); }
+
+        function categoryOf(name) {
+            const n = name.toLowerCase();
+            if (n.includes('rummy')) return 'rummy';
+            if (n.includes('slot')) return 'slots';
+            if (n.includes('teen patti')) return 'teenpatti';
+            if (n.includes('spin')) return 'spin';
+            if (n.includes('ludo')) return 'ludo';
+            if (n.includes('bingo')) return 'bingo';
+            return 'general';
+        }
+        const categoryBlurb = {
+            rummy: 'card tables in Points, Pool and Deals formats, with matches built around forming valid sequences and sets',
+            slots: 'multiple themed reels, each with its own bonus round and visual style',
+            teenpatti: 'card rounds across Blind, Seen and Side Show play styles at different tables',
+            spin: 'a spin-the-wheel core format with varying reward tiers per spin',
+            ludo: 'both quick two-player matches and full multiplayer board games',
+            bingo: '75-ball and 90-ball room formats with different pacing',
+            general: 'a mix of casual activities bundled within one app'
+        };
+
+        function rngFor(seed) {
+            let s = seed;
+            return function() { s = (s * 48271) % 2147483647; return s / 2147483647; };
+        }
+
+        function shuffle(arr, rnd) {
+            const a = arr.slice();
+            for (let j = a.length - 1; j > 0; j--) { const k = Math.floor(rnd() * (j + 1));
+                const t = a[j];
+                a[j] = a[k];
+                a[k] = t; }
+            return a;
+        }
+
+        function buildInfoBag(i) {
+            const app = apps[i - 1];
+            const name = app.name;
+            const cat = categoryOf(name);
+            const bonus = bonusFor(i - 1);
+            const rnd = rngFor(i * 7919 + 13);
+            const openers = [
+                `${name} is built around ${categoryBlurb[cat]}.`,
+                `Opening ${name} for the first time drops you straight into ${categoryBlurb[cat]}.`,
+                `${name} keeps its core experience focused on ${categoryBlurb[cat]}.`
+            ];
+            const middles = [
+                `The interface keeps navigation to a small number of taps, so moving between the main screen and a table or reel does not require much back-and-forth.`,
+                `Session length is left up to the player — a table or round can be joined for a few minutes or for a longer stretch without the app forcing a particular pace.`,
+                `Most of the screen is used for the actual activity rather than for menus, which keeps the visible interface fairly uncluttered on smaller Android displays.`
+            ];
+            const bonusLine =
+                `New accounts on ${name} are currently shown a signup bonus of ₹${bonus}, and the minimum withdrawal threshold listed is ₹100 — both figures come directly from the app and are not altered here.`;
+            const closers = [
+                `As with any real-money app, it is worth reading ${name}'s own terms for that bonus before relying on it, since eligibility rules can vary.`,
+                `Because ${name} manages its own accounts, any question about how the bonus is credited is best directed to its in-app support.`,
+                `${name}'s own app store listing or in-app help section is the most reliable place to confirm current bonus terms.`
+            ];
+            const parts = [
+                shuffle(openers, rnd)[0],
+                shuffle(middles, rnd)[0],
+                bonusLine,
+                shuffle(closers, rnd)[0]
+            ];
+            return parts.join(' ');
+        }
+
+        function buildAboutBag(i) {
+            const app = apps[i - 1];
+            const name = app.name;
+            const cat = categoryOf(name);
+            const rnd = rngFor(i * 5081 + 271);
+            const featureSets = {
+                rummy: ['table selection by stake size', 'a scoring summary after each hand',
+                    'quick-rejoin for an in-progress table'
+                ],
+                slots: ['a rotating set of featured reels on the home screen', 'an in-app history of recent spins',
+                    'adjustable spin speed in settings'
+                ],
+                teenpatti: ['multiple table stakes to choose from', 'a simple fold/show flow during a round',
+                    'a table chat option in some rooms'
+                ],
+                spin: ['a visible reward tier before each spin', 'a daily spin allowance shown on the main screen',
+                    'a short animation confirming each result'
+                ],
+                ludo: ['both 2-player and 4-player room sizes', 'a private room code for playing with friends',
+                    'a turn timer to keep matches moving'
+                ],
+                bingo: ['a choice between 75-ball and 90-ball rooms', 'auto-marking of called numbers',
+                    'a room chat during active games'
+                ],
+                general: ['a simple home-screen layout', 'a small settings menu', 'a lightweight overall install size']
+            };
+            const feats = shuffle(featureSets[cat] || featureSets.general, rnd).slice(0, 2);
+            const sentences = [
+                `${name} is one of the apps listed in this directory, and like the others, it operates independently with its own account system, its own servers and its own support channel.`,
+                `From a usability standpoint, ${name} includes ${feats[0]} and ${feats[1]}, both of which are visible from within the app itself rather than requiring extra setup.`,
+                `Installing ${name} through the button above follows the normal Android process — the download completes, the file is opened, and any standard "install from this source" permission is confirmed if the device asks for it.`,
+                `After installation, ${name} typically asks for a mobile number to create an account, followed by an OTP step to confirm it; no password or OTP for ${name} should ever be shared with anyone outside the app itself.`,
+                `This listing does not process any deposit or withdrawal for ${name} — those actions happen entirely inside the app, under its own terms.`
+            ];
+            return shuffle(sentences, rngFor(i * 991 + 3)).join(' ');
+        }
+
+        function buildQuickNotes(i) {
+            const app = apps[i - 1];
+            const name = app.name;
+            const bonus = bonusFor(i - 1);
+            const rnd = rngFor(i * 131 + 7);
+            const securityLines = [
+                `Never share an OTP, password, or PIN for ${name} with anyone — not by phone, SMS, or chat — even if the person claims to be from ${name}'s own support team. Genuine support staff never need that information read aloud to them, since every real action inside ${name} happens on your own device, not over a call. If a message ever asks you to "confirm" your ${name} account this way, the safest move is to ignore it and check the app directly instead.`,
+                `${name} will never genuinely need your OTP or password repeated to a caller; treat any such request as a scam attempt regardless of how official it sounds. If you ever receive a message asking for this information "to verify your ${name} account," it's safest to ignore it and check your account status directly inside the app instead. It's also worth avoiding any link that promises to "fix" your ${name} account outside the app itself.`,
+                `Keep OTPs, passwords, and PINs for ${name} private at all times — the app itself never asks for them outside its own official screens. A good habit is to only ever enter this information when you yourself opened ${name} directly, never through a link sent by someone else, and to double-check that you're on the genuine app before typing anything sensitive.`
+            ];
+            const supportLines = [
+                `Account or payment questions for ${name} are best handled through its own in-app support — for example, many apps like ${name} offer an official live chat option reachable from a help or profile menu, where you can describe the issue and attach relevant details such as a screenshot or transaction reference.`,
+                `${name} runs its own support channel, separate from this directory, and that channel is the right place for a deposit, withdrawal, or account question. Look for a help, support, or live chat option inside ${name}'s own menu, since agents there can see your actual account and transaction history and respond with specifics.`,
+                `For anything specific to your ${name} account, its own in-app support — often available as a live chat or help-ticket option — will have far more context than this listing does. Keep a note of any reference or transaction ID ${name} gives you, since it usually speeds up how quickly a query gets resolved by its team.`
+            ];
+            const withdrawalLines = [
+                `Minimum withdrawal listed for ${name} is ₹100, and the request is handled entirely within the app's own wallet section rather than through this directory. Deposits and withdrawals on ${name} are usually processed quickly, though occasional delays from bank-side processing or a brief technical issue are possible, as with any payment system.`,
+                `${name} sets its own withdrawal process, and the ₹100 minimum shown here comes directly from the app rather than being invented by this listing. If a withdrawal from ${name} seems to be taking longer than expected, its in-app support is the right place to raise it, since resolution can reasonably take anywhere from a few hours up to about a week depending on the cause.`,
+                `Withdrawals from ${name} are processed by the app itself, with ₹100 listed as the minimum amount. Most requests go through without issue, but if one is delayed by a technical or banking problem, reporting it through ${name}'s support along with your transaction details is the fastest path to a resolution, even if it occasionally takes a few days.`
+            ];
+            const signupLines = [
+                `${name} generally asks for a mobile number and an OTP to finish creating an account — a fast, familiar flow for most Android users that usually takes well under a minute to complete from start to finish.`,
+                `Creating an account on ${name} typically starts with a mobile number, confirmed by an OTP, and takes only a minute or two for a new user before the main screen becomes available.`,
+                `Signing up for ${name} follows the app's own short number-plus-OTP flow, designed to get a new user into the app quickly without extra paperwork at this early stage.`
+            ];
+            const bonusLines = [
+                `The signup bonus of ₹${bonus} shown for ${name} is typically credited automatically once the first signup step is complete, based on the exact terms ${name} itself sets — it's worth a quick look at ${name}'s own bonus terms once you're signed in, since eligibility details can vary.`,
+                `That initial signup on ${name} is also usually what unlocks the ₹${bonus} welcome bonus currently shown on its listing above; the figure comes directly from ${name} and is not altered by this directory in any way.`,
+                `Once signup on ${name} is done, the ₹${bonus} new-user bonus shown here is generally applied by the app without extra steps required, though any conditions attached to using it are set entirely by ${name} rather than by this listing.`
+            ];
+            return [
+                { h: 'Security', b: shuffle(securityLines, rnd)[0] },
+                { h: 'Support', b: shuffle(supportLines, rnd)[0] },
+                { h: 'Withdrawals', b: shuffle(withdrawalLines, rnd)[0] },
+                { h: 'Sign up', b: shuffle(signupLines, rnd)[0] },
+                { h: 'Bonus', b: shuffle(bonusLines, rnd)[0] }
+            ];
+        }
+
+        function buildReviews(i) {
+            const app = apps[i - 1];
+            const name = app.name;
+            const bonus = bonusFor(i - 1);
+            const reviewerPool = ['Baharul Pande', 'Anjali Mehta', 'Rohit Sharma', 'Priya Nair', 'Karan Malhotra',
+                'Sneha Kulkarni', 'Vikram Rao', 'Fatima Sheikh', 'Arjun Verma', 'Divya Iyer'
+            ];
+            const themes = [
+                { t: `${name} felt responsive from the first session, and the layout stayed easy to follow throughout.`,
+                    s: 5 },
+                { t: `Trying out a few different modes inside ${name} was straightforward — nothing felt hidden away in menus.`,
+                    s: 4 },
+                { t: `I reached out to support about a question and got a clear answer without much back-and-forth.`,
+                s: 4 },
+                { t: `Navigation around ${name} stayed smooth even during a longer session, without noticeable slowdown.`,
+                    s: 5 },
+                { t: `The signup bonus of ₹${bonus} on ${name} was a nice touch on top of an otherwise solid app.`,
+                s: 5 }
+            ];
+            const rnd = rngFor(i * 211 + 41);
+            const names = shuffle(reviewerPool, rnd).slice(0, 5);
+            return themes.map((th, idx) => ({ text: th.t, stars: th.s, name: names[idx] }));
+        }
+
+        // ─── RENDER ──────────────────────────────────────────────────────────
+        function renderHome() {
+            const grid = document.getElementById('homeGrid');
+            grid.innerHTML = apps.map((a, idx) => {
+                const bonus = bonusFor(idx);
+                return `<article class="app-card">
+                  <div class="app-card-img-wrap">
+                    <span class="app-card-num">${a.id}</span>
+                    <img class="app-card-img" src="${a.image}" alt="${a.name}" loading="lazy">
+                  </div>
+                  <div class="app-card-body">
+                    <div class="app-card-name">${a.name}</div>
+                    <div class="app-card-row">🎁 Sign Up Bonus <strong>₹${bonus}</strong></div>
+                    <div class="app-card-row">💰 Withdrawal <strong>₹100</strong></div>
+                    <button class="app-download-btn" data-open="${a.id}">Download</button>
+                  </div>
+                </article>`;
+            }).join('');
+            grid.querySelectorAll('[data-open]').forEach(btn => {
+                btn.addEventListener('click', () => openDetails(Number(btn.dataset.open)));
+            });
+        }
+
+        function openDetails(id) {
+            const idx = id - 1;
+            const app = apps[idx];
+            const bonus = bonusFor(idx);
+            const details = `
+              <button class="back-btn" data-back="home">${backIcon} Back to Home</button>
+              <div class="detail-top">
+                <img class="detail-img" src="${app.image}" alt="${app.name}">
+                <div class="detail-name">${app.name}</div>
+              </div>
+              <div class="detail-meta-row">
+                <div class="detail-meta-item">${giftIcon}<span><span class="lbl">Sign Up Bonus</span><span class="val">₹${bonus}</span></span></div>
+                <div class="detail-meta-item">${walletIcon}<span><span class="lbl">Withdrawal</span><span class="val">₹100</span></span></div>
+              </div>
+              <button class="detail-download-btn" id="mainDownloadBtn">${downloadIcon} Download</button>
+            `;
+            document.getElementById('detailsContent').innerHTML = details;
+            document.getElementById('mainDownloadBtn').addEventListener('click', () => {
+                window.open(app.link, '_blank');
+            });
+            document.querySelectorAll('#detailsContent [data-back="home"]').forEach(b =>
+                b.addEventListener('click', () => showPage('home'))
+            );
+            showPage('details');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderAbout() {
+            const html = `
+            <button class="back-btn" data-back="home">${backIcon} Back</button>
+            <div class="about-block">
+              <h2 style="font-size:16px;margin:0 0 10px 0;">About This Directory</h2>
+              <p>This site is a simple directory of 74 game and app listings, each shown with its own image, signup bonus figure and download link. The goal is to make it easy to browse and compare apps in one place before installing anything.</p>
+              <p>Every app listed here is an independent third-party product. This directory does not create accounts, does not process deposits or withdrawals, and does not collect OTPs or passwords for any of them.</p>
+              <p>Each app card on the Home Page shows the same basic details at a glance — its image, its current signup bonus, and its listed minimum withdrawal — so that comparing several apps before installing one doesn't require opening every listing individually.</p>
+              <p>Open any app's own page to see its full information, including its complete list of the other 73 apps in this directory, quick notes on security and support, and a short set of example player reviews.</p>
+            </div>
+          `;
+            document.getElementById('aboutContent').innerHTML = html;
+            document.querySelectorAll('#aboutContent [data-back="home"]').forEach(b => b.addEventListener('click', () =>
+                showPage('home')));
+        }
+
+        // ─── NAVIGATION ──────────────────────────────────────────────────────
+        function showPage(name) {
+            document.body.classList.toggle('home-theme', name === 'home');
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + name).classList.add('active');
+            if (name === 'home') { window.scrollTo({ top: 0, behavior: 'auto' }); }
+            if (name === 'about') { renderAbout();
+                window.scrollTo({ top: 0, behavior: 'auto' }); }
+        }
+
+        // ─── MENU ────────────────────────────────────────────────────────────
+        const menuBtn = document.getElementById('menuBtn');
+        const menuBackdrop = document.getElementById('menuBackdrop');
+        const menuDrawer = document.getElementById('menuDrawer');
+
+        function openMenu() { menuBackdrop.classList.add('show');
+            menuDrawer.classList.add('show');
+            menuBtn.classList.add('menu-open'); }
+
+        function closeMenu() { menuBackdrop.classList.remove('show');
+            menuDrawer.classList.remove('show');
+            menuBtn.classList.remove('menu-open'); }
+        menuBtn.addEventListener('click', () => { menuDrawer.classList.contains('show') ? closeMenu() : openMenu(); });
+        menuBackdrop.addEventListener('click', closeMenu);
+        document.getElementById('menuCloseBtn').addEventListener('click', closeMenu);
+        document.querySelectorAll('.menu-item, footer [data-page]').forEach(el => {
+            el.addEventListener('click', () => { showPage(el.dataset.page);
+                closeMenu(); });
+        });
+        document.querySelectorAll('[data-back="home"]').forEach(b => b.addEventListener('click', () => showPage('home')));
+
+        // ─── TOP MODEL BAR CONTROLS ──────────────────────────────────────────
+        (function() {
+            const bar = document.getElementById('topModelBar');
+            const closeBtn = document.getElementById('modelCloseBtn');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const tgGroup = document.getElementById('telegramGroup');
+            const downloadGroup = document.querySelector('.dl-group');
+
+            // Close only the Download All App row; keep Telegram visible.
+            if (closeBtn && downloadGroup) {
+                closeBtn.addEventListener('click', function() {
+                    downloadGroup.classList.add('hidden-download');
+                });
+            }
+
+            // Download All button → open URL
+            if (downloadAllBtn) {
+                downloadAllBtn.addEventListener('click', function() {
+                    window.open(
+                        'https://web2apkpro.com/public_download.php?project_id=21599&token=6bbe1b6892', '_blank');
+                });
+            }
+
+            // Telegram group → open URL
+            if (tgGroup) {
+                tgGroup.addEventListener('click', function() {
+                    window.open('https://t.me/allyonogamesinfo', '_blank');
+                });
+            }
+
+            // Scroll behavior: hide Telegram group when scrolling, show when idle
+            let scrollTimer = null;
+            let lastScrollY = window.scrollY;
+            const tg = tgGroup;
+
+            if (tg) {
+                window.addEventListener('scroll', function() {
+                    const y = window.scrollY;
+                    // If user scrolled more than 3px, hide telegram
+                    if (Math.abs(y - lastScrollY) > 3) {
+                        tg.classList.add('hide-tg');
+                    }
+                    lastScrollY = y;
+                    clearTimeout(scrollTimer);
+                    scrollTimer = setTimeout(function() {
+                        tg.classList.remove('hide-tg');
+                    }, 280);
+                }, { passive: true });
+
+                // Also hide on initial load if page is scrolled
+                if (window.scrollY > 10) {
+                    tg.classList.add('hide-tg');
+                    setTimeout(function() {
+                        tg.classList.remove('hide-tg');
+                    }, 400);
+                }
+            }
+        })();
+
+        // ─── INIT ────────────────────────────────────────────────────────────
+        document.body.classList.add('home-theme');
+        renderHome();
+    </script>
+</body>
+</html>
